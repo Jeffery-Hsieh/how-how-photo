@@ -1,0 +1,32 @@
+[
+    {
+        "id": 4,
+        "name": "Alex Marchal",
+        "latestMessage": "I hav some questions about...",
+        "sendAt": "2020/05/03"
+    },
+    {
+        "id": 5,
+        "name": "Norma Wilson",
+        "latestMessage": "https://www.warephase.com",
+        "sendAt": "2020/06/12"
+    },
+    {
+        "id": 6,
+        "name": "Morris Murphy",
+        "latestMessage": "Hope it will work in the week...",
+        "sendAt": "2020/12/23"
+    },
+    {
+        "id": 7,
+        "name": "Kylie Lane",
+        "latestMessage": "Thank you! It really shine with...",
+        "sendAt": "2020/09/02"
+    },
+    {
+        "id": 8,
+        "name": "Ted Steward",
+        "latestMessage": "Yes I know",
+        "sendAt": "2020/07/17"
+    }
+]

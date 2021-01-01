@@ -3,25 +3,33 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import HomeScreen from "./screens/HomeScreen";
+import JobListScreen from "./screens/JobListScreen";
+import JobDetailScreen from "./screens/JobDetailScreen";
 
 import SearchScreen from "./screens/SearchScreen";
+import SearchFilterScreen from "./screens/SearchFilterScreen";
+
 import FavoriteScreen from "./screens/FavoriteScreen";
-import MessageScreen from "./screens/MessageScreen";
+
+import ChatRoomListScreen from "./screens/ChatRoomListScreen";
+import ChatRoomScreen from "./screens/ChatRoomScreen";
+
 import ProfileScreen from "./screens/ProfileScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const HomeStack = () => (
-  <Stack.Navigator initialRouteName="Home">
-    <Stack.Screen name="Home" component={HomeScreen} />
+  <Stack.Navigator initialRouteName="Find Jobs">
+    <Stack.Screen name="Find Jobs" component={JobListScreen} />
+    <Stack.Screen name="Detail" component={JobDetailScreen} />
   </Stack.Navigator>
 );
 
 const SearchStack = () => (
   <Stack.Navigator initialRouteName="Search">
     <Stack.Screen name="Search" component={SearchScreen} />
+    <Stack.Screen name="Filter" component={SearchFilterScreen} />
   </Stack.Navigator>
 );
 
@@ -33,7 +41,8 @@ const FavoriteStack = () => (
 
 const MessageStack = () => (
   <Stack.Navigator initialRouteName="Favorite">
-    <Stack.Screen name="Message" component={MessageScreen} />
+    <Stack.Screen name="Message" component={ChatRoomListScreen} />
+    <Stack.Screen name="Chat" component={ChatRoomScreen} />
   </Stack.Navigator>
 );
 
