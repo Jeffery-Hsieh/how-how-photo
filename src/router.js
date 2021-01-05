@@ -3,42 +3,108 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import HomeScreen from "./screens/HomeScreen";
+import { SessionProvider } from "./store/context";
+
+import JobListScreen from "./screens/JobListScreen";
+import JobDetailScreen from "./screens/JobDetailScreen";
+import UserRatingScreen from "./screens/UserRatingScreen";
+
 import SearchScreen from "./screens/SearchScreen";
+import SearchFilterScreen from "./screens/SearchFilterScreen";
+
 import FavoriteScreen from "./screens/FavoriteScreen";
-import MessageScreen from "./screens/MessageScreen";
+
+import ChatRoomListScreen from "./screens/ChatRoomListScreen";
+import ChatRoomScreen from "./screens/ChatRoomScreen";
+
 import ProfileScreen from "./screens/ProfileScreen";
+import AddPortfolioScreen from "./screens/AddPortfolioScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const HomeStack = () => (
-  <Stack.Navigator initialRouteName="Home">
-    <Stack.Screen name="Home" component={HomeScreen} />
+  <Stack.Navigator initialRouteName="Find Jobs">
+    <Stack.Screen
+      name="Find Jobs"
+      component={JobListScreen}
+      options={{ title: "我的案子" }}
+    />
+    <Stack.Screen
+      name="Detail"
+      component={JobDetailScreen}
+      options={{ title: "詳細內容" }}
+    />
+    <Stack.Screen
+      name="Rating"
+      component={UserRatingScreen}
+      options={{ title: "評價" }}
+    />
+    <Stack.Screen
+      name="Chat"
+      component={ChatRoomScreen}
+      options={{ title: "" }}
+    />
   </Stack.Navigator>
 );
 
 const SearchStack = () => (
   <Stack.Navigator initialRouteName="Search">
-    <Stack.Screen name="Search" component={SearchScreen} />
+    <Stack.Screen
+      name="Search"
+      component={SearchScreen}
+      options={{ title: "尋找案件" }}
+    />
+    <Stack.Screen
+      name="Filter"
+      component={SearchFilterScreen}
+      options={{ title: "搜尋條件" }}
+    />
+    <Stack.Screen
+      name="Detail"
+      component={JobDetailScreen}
+      options={{ title: "詳細內容" }}
+    />
   </Stack.Navigator>
 );
 
 const FavoriteStack = () => (
   <Stack.Navigator initialRouteName="Favorite">
-    <Stack.Screen name="Favorite" component={FavoriteScreen} />
+    <Stack.Screen
+      name="Favorite"
+      component={FavoriteScreen}
+      options={{ title: "收藏" }}
+    />
   </Stack.Navigator>
 );
 
 const MessageStack = () => (
   <Stack.Navigator initialRouteName="Favorite">
-    <Stack.Screen name="Message" component={MessageScreen} />
+    <Stack.Screen
+      name="Message"
+      component={ChatRoomListScreen}
+      options={{ title: "聊天室" }}
+    />
+    <Stack.Screen
+      name="Chat"
+      component={ChatRoomScreen}
+      options={{ title: "" }}
+    />
   </Stack.Navigator>
 );
 
 const ProfileStack = () => (
   <Stack.Navigator initialRouteName="Profile">
-    <Stack.Screen name="Profile" component={ProfileScreen} />
+    <Stack.Screen
+      name="Profile"
+      component={ProfileScreen}
+      options={{ title: "個人資料" }}
+    />
+    <Stack.Screen
+      name="Add Portfolio"
+      component={AddPortfolioScreen}
+      options={{ title: "新增作品集" }}
+    />
   </Stack.Navigator>
 );
 
@@ -66,16 +132,18 @@ const BottomTabNavigator = () => (
     />
     <Tab.Screen
       name="Profile"
-      component={FavoriteStack}
+      component={ProfileStack}
       options={{ tabBarIcon: "account" }}
     />
   </Tab.Navigator>
 );
 
 const routes = () => (
-  <NavigationContainer>
-    <BottomTabNavigator />
-  </NavigationContainer>
+  <SessionProvider>
+    <NavigationContainer>
+      <BottomTabNavigator />
+    </NavigationContainer>
+  </SessionProvider>
 );
 
 export default routes;
