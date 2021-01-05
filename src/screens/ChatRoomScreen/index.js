@@ -1,12 +1,17 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import { Text, StyleSheet, View, ActivityIndicator } from "react-native";
 import { GiftedChat, Send } from "react-native-gifted-chat";
 import { Icon, Avatar } from "react-native-elements";
 import { BlurView } from "expo-blur";
 import * as firebase from "firebase";
 
+import { userHack, portfolio } from "../../store/constant";
 import SessionContext from "../../store/context";
 import useGetChatRoomMessages from "../../hooks/useGetChatRoomMessages";
+
+const MATCHTEXT = portfolio.map((item) => {
+  return item.matchText;
+});
 
 const ChatScreen = ({ route }) => {
   const [session] = useContext(SessionContext);
@@ -14,9 +19,25 @@ const ChatScreen = ({ route }) => {
   const { roomId } = route.params;
   const [{ messages, isLoading }] = useGetChatRoomMessages(firebase, roomId);
 
-  const handleSend = async (messages) => {
-    const text = messages[0].text;
+  const addAutoReplyListener = (message) => {
+    console.log(message);
+    portfolio.forEach((item) => {
+      if (message.text.includes(item.matchText)) {
+        if (message["user"]["_id"] == userHack[1].id) {
+          sendToFirebase(userHack[0].id, item.text, item.imageURI);
+        }
+      }
+    });
+  };
 
+  useEffect(() => {
+    const latestMessage = messages.length && messages[0];
+    if (latestMessage) {
+      addAutoReplyListener(latestMessage);
+    }
+  }, [messages]);
+
+  const sendToFirebase = async (userId, newText, newImage) => {
     firebase
       .firestore()
       .collection("messages")
@@ -24,23 +45,31 @@ const ChatScreen = ({ route }) => {
       .collection("chat")
       .add({
         sendAt: firebase.firestore.Timestamp.fromDate(new Date()),
-        text: text,
+        text: newText,
+        imageURI: newImage,
         sender: userId,
       });
-    firebase.firestore().collection("messages").doc(groupId).set({
-      previewMsg: text,
+    firebase.firestore().collection("messages").doc(roomId).set({
+      previewMsg: newText,
     });
   };
 
-  const renderSend = (props) => {
-    return (
-      <Send {...props}>
-        <View style={styles.sendContainer}>
-          <Icon icon="send-circle" size={32} color="#6646ee" />
-        </View>
-      </Send>
-    );
+  const handleSend = async (messages) => {
+    const text = messages[0].text || "";
+    const imageURI = messages[0].image || "";
+
+    sendToFirebase(user.id, text, imageURI);
   };
+
+  // const renderSend = (props) => {
+  //   return (
+  //     <Send {...props}>
+  //       <View style={styles.sendContainer}>
+  //         <Icon icon="send-circle" size={32} color="#6646ee" />
+  //       </View>
+  //     </Send>
+  //   );
+  // };
 
   const renderLoading = () => {
     return (
@@ -70,7 +99,6 @@ const ChatScreen = ({ route }) => {
             type="material-community"
             name="phone"
           />
-          <Icon type="material-community" name="dots-vertical" />
         </View>
       </BlurView>
       <GiftedChat

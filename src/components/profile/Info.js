@@ -3,7 +3,6 @@ import { Icon, Avatar } from "react-native-elements";
 import { View, Text, StyleSheet } from "react-native";
 
 const Info = ({ name, occupation, imageURI, tags }) => {
-  console.log(imageURI);
   return (
     <>
       <Avatar
@@ -16,7 +15,7 @@ const Info = ({ name, occupation, imageURI, tags }) => {
       <Text style={styles.occupation}>{occupation}</Text>
       <View style={styles.tagContainer}>
         {tags.map((tag) => (
-          <View style={styles.tagView}>
+          <View key={tag} style={styles.tagView}>
             <Icon
               type="material-community"
               containerStyle={styles.tagIcon}
