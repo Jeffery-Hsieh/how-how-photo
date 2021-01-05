@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, ScrollView, StyleSheet, Dimensions } from "react-native";
 import { Icon } from "react-native-elements";
-import { TabView, SceneMap } from "react-native-tab-view";
-import useGetJobs from "../../hooks/useGetJobs";
-
+import { TabView } from "react-native-tab-view";
 import { TabBar } from "react-native-tab-view";
+
 import JobList from "../../components/ui/JobList";
+import useGetJobs from "../../hooks/useGetJobs";
 
 const JobListScreen = ({ navigation }) => {
   const [index, setIndex] = useState(0);
@@ -16,18 +16,34 @@ const JobListScreen = ({ navigation }) => {
 
   const [jobs, setStatus] = useGetJobs(routes[index].key);
 
-  const goToDetailScreen = (id) => {
-    navigation.navigate("Detail", { jobId: id });
+  const goToFinishedJobDetailScreen = (id) => {
+    navigation.navigate("Detail", {
+      reviewEnabled: true,
+    });
   };
+  const goToProceedingDetailScreen = (id) => {
+    navigation.navigate("Detail", {
+      reviewEnabled: false,
+    });
+  };
+
+  useEffect(() => {
+    setStatus(routes[index].key);
+  }, [index]);
 
   const renderScene = ({ route }) => {
     switch (route.key) {
       case "proceeding":
+        return (
+          <ScrollView style={styles.jobListView}>
+            <JobList jobs={jobs} itemClick={goToProceedingDetailScreen} />
+          </ScrollView>
+        );
       case "finished":
         return (
-          <View style={styles.jobListView}>
-            <JobList jobs={jobs} itemClick={goToDetailScreen} />
-          </View>
+          <ScrollView style={styles.jobListView}>
+            <JobList jobs={jobs} itemClick={goToFinishedJobDetailScreen} />
+          </ScrollView>
         );
       default:
         return null;
@@ -85,6 +101,7 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   jobListView: {
+    paddingTop: 16,
     paddingHorizontal: 16,
   },
 });

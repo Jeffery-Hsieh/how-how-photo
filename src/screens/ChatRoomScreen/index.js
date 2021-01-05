@@ -3,103 +3,34 @@ import { Text, StyleSheet, View, ActivityIndicator } from "react-native";
 import { GiftedChat, Send } from "react-native-gifted-chat";
 import { Icon, Avatar } from "react-native-elements";
 import { BlurView } from "expo-blur";
+import * as firebase from "firebase";
 
-const msg = [
-  {
-    _id: 1,
-    text: "Hello developer",
-    createdAt: new Date(),
-    user: {
-      _id: 2,
-      name: "React Native",
-      avatar: "https://placeimg.com/140/140/any",
-    },
-  },
-  {
-    _id: 2,
-    text: "Hello developer",
-    createdAt: new Date(),
-    user: {
-      _id: 2,
-      name: "React Native",
-      avatar: "https://placeimg.com/140/140/any",
-    },
-  },
-  {
-    _id: 3,
-    text: "Hello developer",
-    createdAt: new Date(),
-    user: {
-      _id: 2,
-      name: "React Native",
-      avatar: "https://placeimg.com/140/140/any",
-    },
-  },
-  {
-    _id: 4,
-    text: "Hello developer",
-    createdAt: new Date(),
-    user: {
-      _id: 2,
-      name: "React Native",
-      avatar: "https://placeimg.com/140/140/any",
-    },
-  },
-  {
-    _id: 5,
-    text: "Hello developer",
-    createdAt: new Date(),
-    user: {
-      _id: 2,
-      name: "React Native",
-      avatar: "https://placeimg.com/140/140/any",
-    },
-  },
-  {
-    _id: 6,
-    text: "Hello developer",
-    createdAt: new Date(),
-    user: {
-      _id: 2,
-      name: "React Native",
-      avatar: "https://placeimg.com/140/140/any",
-    },
-  },
-  {
-    _id: 7,
-    text: "Hello developer",
-    createdAt: new Date(),
-    user: {
-      _id: 2,
-      name: "React Native",
-      avatar: "https://placeimg.com/140/140/any",
-    },
-  },
-  {
-    _id: 8,
-    text: "Hello developer",
-    createdAt: new Date(),
-    user: {
-      _id: 2,
-      name: "React Native",
-      avatar: "https://placeimg.com/140/140/any",
-    },
-  },
-];
+import SessionContext from "../../store/context";
+import useGetChatRoomMessages from "../../hooks/useGetChatRoomMessages";
 
 const ChatScreen = ({ route }) => {
-  // get messages
-  const [messages, setMessages] = useState([]);
+  const [session] = useContext(SessionContext);
+  const { firebase, user } = session;
+  const { roomId } = route.params;
+  const [{ messages, isLoading }] = useGetChatRoomMessages(firebase, roomId);
 
-  useEffect(() => {
-    setMessages(msg);
-  }, []);
+  const handleSend = async (messages) => {
+    const text = messages[0].text;
 
-  const onSend = useCallback((messages = []) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, messages)
-    );
-  }, []);
+    firebase
+      .firestore()
+      .collection("messages")
+      .doc(roomId)
+      .collection("chat")
+      .add({
+        sendAt: firebase.firestore.Timestamp.fromDate(new Date()),
+        text: text,
+        sender: userId,
+      });
+    firebase.firestore().collection("messages").doc(groupId).set({
+      previewMsg: text,
+    });
+  };
 
   const renderSend = (props) => {
     return (
@@ -129,7 +60,7 @@ const ChatScreen = ({ route }) => {
           <Avatar
             containerStyle={styles.avatarImage}
             rounded
-            source={{ uri: `https://i.pravatar.cc/300?img=1` }}
+            source={{ uri: `https://i.pravatar.cc/300?img=30` }}
           />
           <Text style={styles.avatarText}>Alex Marchal</Text>
         </View>
@@ -144,9 +75,9 @@ const ChatScreen = ({ route }) => {
       </BlurView>
       <GiftedChat
         messages={messages}
-        onSend={(messages) => onSend(messages)}
+        onSend={(messages) => handleSend(messages)}
         user={{
-          _id: 1,
+          _id: user.id,
         }}
         alwaysShowSend={true}
         placeholder="輸入文字..."

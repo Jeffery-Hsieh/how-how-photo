@@ -10,18 +10,26 @@ const JobList = ({ jobs, itemClick }) => {
 
   if (!jobItems.length) {
     return (
-      <View>
-        <Text>Loading...</Text>
+      <View style={styles.warningView}>
+        <Text style={styles.warningTitle}>沒有搜尋到符合的案件</Text>
+        <Text style={styles.warningText}>請嘗試其他搜尋關鍵字</Text>
       </View>
     );
   }
 
-  return <ScrollView style={styles.container}>{jobItems}</ScrollView>;
+  return <>{jobItems}</>;
 };
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 24,
+  warningView: {
+    alignItems: "center",
+    alignSelf: "center",
+    marginTop: "60%",
+  },
+  warningTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 24,
   },
 });
 

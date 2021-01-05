@@ -1,35 +1,43 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import JobDetailHeader from "../../components/JobDetail/Header";
-import JobDetailSubHeader from "../../components/JobDetail/SubHeader";
+import JobDetailHeader from "../../components/jobDetail/Header";
+import JobDetailSubHeader from "../../components/jobDetail/SubHeader";
+import JobInfo from "../../components/jobDetail/JobInfo";
+import JobTimeline from "../../components/jobDetail/JobTimeLine";
+
 import { TabView, TabBar } from "react-native-tab-view";
 import { Icon } from "react-native-elements";
 
-import Card from "../../components/JobDetail/Card";
-import JobTimeline from "../../components/JobDetail/JobTimeLine";
+const ROOMID = "W9OwGZS7GIdNc8DyDRd9";
 
-const jobDetail = {
-  workers: [
-    { occupation: "導演", name: "陳大明" },
-    { occupation: "製片", name: "吳曉東" },
-    { occupation: "髮妝", name: "林阿月" },
-  ],
-  price: "$15000",
-};
-
-const JobDetailScreen = () => {
+const JobDetailScreen = ({ navigation, route }) => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: "detail", title: "詳細內容" },
     { key: "timeline", title: "進度條" },
   ]);
 
+  const moveToRatingSreen = () => {
+    navigation.navigate("Rating");
+  };
+
+  const moveToChatScreen = (event) => {
+    navigation.navigate("Chat", { roomId: ROOMID });
+  };
+
+  const reviewEnabled = route.params && route.params.reviewEnabled;
+
   const renderScene = ({ route }) => {
     switch (route.key) {
       case "detail":
-        return <Card />;
+        return (
+          <JobInfo
+            reviewEnabled={reviewEnabled}
+            moveToNextScreen={moveToRatingSreen}
+          />
+        );
       case "timeline":
-        return <JobTimeline />;
+        return <JobTimeline moveToNextScreen={moveToChatScreen} />;
       default:
         return null;
     }

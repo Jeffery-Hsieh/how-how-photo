@@ -5,18 +5,18 @@ import Timeline from "react-native-timeline-flatlist";
 const Description = ({ title, name, date }) => (
   <View style={styles.descriptionView}>
     <Text style={styles.descriptionTitle}>{title}</Text>
-    <TouchableOpacity style={styles.descriptionContent}>
+    <View style={styles.descriptionContent}>
       {name ? (
         <Text style={styles.descriptionText}>聯絡窗口：{name}</Text>
       ) : null}
       {date ? (
         <Text style={styles.descriptionText}>執行日期：{date}</Text>
       ) : null}
-    </TouchableOpacity>
+    </View>
   </View>
 );
 
-const JobTimeline = () => {
+const JobTimeline = ({ moveToNextScreen }) => {
   const data = [
     {
       description: (
@@ -69,6 +69,7 @@ const JobTimeline = () => {
     <Timeline
       style={styles.list}
       data={data}
+      onEventPress={moveToNextScreen}
       innerCircle={"icon"}
       circleColor="#ffffff"
       lineColor={"#000000"}

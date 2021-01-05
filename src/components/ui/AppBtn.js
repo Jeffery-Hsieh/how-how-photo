@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity, View, StyleSheet, Text } from "react-native";
 import { Icon } from "react-native-elements";
 
-const Tag = ({
+const AppBtn = ({
   text,
   containerStyle,
   tagStyle,
@@ -20,12 +20,6 @@ const Tag = ({
           isSelected && { backgroundColor: tagClickColor },
         ]}
       >
-        <Icon
-          type="material-community"
-          name={isSelected ? "check" : "plus"}
-          color={isSelected ? "#000000" : "#ffffff"}
-          size={16}
-        />
         <Text
           style={[styles.text, tagStyle, isSelected && { color: "#000000" }]}
         >
@@ -41,22 +35,20 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   view: {
-    flexDirection: "row",
-    backgroundColor: "#797C7E",
+    backgroundColor: "#ffffff",
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
     borderRadius: 20,
     borderColor: "#000000",
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
   },
   text: {
     textAlign: "center",
-    color: "#ffffff",
+    color: "#000000",
     fontSize: 16,
-    marginLeft: 4,
   },
 });
 
-export default Tag;
+export default AppBtn;
