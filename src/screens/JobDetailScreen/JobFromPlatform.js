@@ -10,7 +10,7 @@ import jobs from "../../constants/jobs.json";
 
 const ROOMID = "W9OwGZS7GIdNc8DyDRd9";
 
-const JobFromPlatform = ({ jobId, moveToProfileScreen }) => {
+const JobFromPlatform = ({ jobId, moveToProfileScreen, moveToChatScreen }) => {
   const [index, setIndex] = useState(0);
   const [routes] = React.useState([
     { key: "detail", title: "詳細內容" },
@@ -26,7 +26,13 @@ const JobFromPlatform = ({ jobId, moveToProfileScreen }) => {
   const renderScene = ({ route }) => {
     switch (route.key) {
       case "detail":
-        return <JobInfo {...job} moveToNextScreen={moveToProfileScreen} />;
+        return (
+          <JobInfo
+            {...job}
+            moveToProfileScreen={moveToProfileScreen}
+            moveToChatScreen={moveToChatScreen}
+          />
+        );
       case "timeline":
         return (
           <JobTimeline

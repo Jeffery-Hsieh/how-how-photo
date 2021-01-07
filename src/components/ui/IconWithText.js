@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
 
 const IconWithText = ({
@@ -8,13 +8,19 @@ const IconWithText = ({
   text,
   containerStyle,
   textStyle,
+  iconOnPress,
+  disabled,
 }) => {
   if (!text) {
     return null;
   }
 
   return (
-    <View style={[styles.rowView, containerStyle]}>
+    <TouchableOpacity
+      style={[styles.rowView, containerStyle]}
+      disabled={disabled === undefined ? true : false}
+      onPress={iconOnPress}
+    >
       <Icon
         type={iconSource || "material-community"}
         containerStyle={styles.icon}
@@ -23,7 +29,7 @@ const IconWithText = ({
         size={24}
       />
       <Text style={textStyle}>{text}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

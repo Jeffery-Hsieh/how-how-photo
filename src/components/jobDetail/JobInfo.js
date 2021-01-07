@@ -11,9 +11,10 @@ const JobInfo = ({
   sender,
   facebookId,
   lineId,
-  phone,
   description,
-  moveToNextScreen,
+  status,
+  moveToProfileScreen,
+  moveToChatScreen,
 }) => {
   return (
     <View style={styles.container}>
@@ -23,16 +24,19 @@ const JobInfo = ({
         platform="HOW"
         workerNum={2}
         price={"15K"}
-        avatarOnPress={moveToNextScreen}
+        avatarOnPress={moveToProfileScreen}
       />
       <JobDetailSubHeader
         id={id}
         facebookId={facebookId}
         lineId={lineId}
-        phone={phone}
+        moveToChatScreen={moveToChatScreen}
       />
       <Divider />
-      <JobDescription text={description} />
+      <JobDescription
+        text={description}
+        showApplyBtn={status === "start" || status === "favorite"}
+      />
     </View>
   );
 };

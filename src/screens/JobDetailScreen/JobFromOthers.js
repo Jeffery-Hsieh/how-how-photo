@@ -9,7 +9,7 @@ import JobDescription from "../../components/jobDetail/JobDescription";
 
 const ROOMID = "W9OwGZS7GIdNc8DyDRd9";
 
-const JobFromOthers = ({ jobId, moveToProfileScreen }) => {
+const JobFromOthers = ({ jobId, moveToProfileScreen, moveToChatScreen }) => {
   const filteredJob = jobs.filter((job) => {
     return job.id === jobId;
   })[0];
@@ -17,7 +17,7 @@ const JobFromOthers = ({ jobId, moveToProfileScreen }) => {
   const {
     facebookId,
     lineId,
-    phone,
+    status,
     platform,
     description,
     sender,
@@ -37,7 +37,7 @@ const JobFromOthers = ({ jobId, moveToProfileScreen }) => {
         id={jobId}
         facebookId={facebookId}
         lineId={lineId}
-        phone={phone}
+        moveToChatScreen={moveToChatScreen}
       />
 
       <Divider />

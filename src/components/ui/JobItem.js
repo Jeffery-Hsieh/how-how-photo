@@ -26,6 +26,8 @@ const JobItem = ({
   moveToNextScreen,
 }) => {
   const showFavoriteIcon = status === "start" || status === "favorite";
+  const showApplyJobIcon =
+    (status === "favorite" || status === "start") && platform == "self";
   const showUnCommentIndicator = status === "finished" && platform === "self";
 
   return (
@@ -70,7 +72,7 @@ const JobItem = ({
             isSelected={status == "favorite"}
             selectedColor="#B9B8B7"
           />
-          <AppBtn text="應徵" />
+          {showApplyJobIcon && <AppBtn text="應徵" />}
         </View>
       )}
       {showUnCommentIndicator && (

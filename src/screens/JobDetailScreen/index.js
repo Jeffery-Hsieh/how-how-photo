@@ -12,10 +12,22 @@ const JobDetailScreen = ({ navigation, route }) => {
     navigation.navigate("Profile");
   };
 
+  const moveToChatScreen = () => {
+    navigation.navigate("Chat", { roomId: ROOMID });
+  };
+
   return platform == "self" ? (
-    <JobFromPlatform jobId={jobId} moveToProfileScreen={moveToProfileScreen} />
+    <JobFromPlatform
+      jobId={jobId}
+      moveToProfileScreen={moveToProfileScreen}
+      moveToChatScreen={moveToChatScreen}
+    />
   ) : (
-    <JobFromOthers jobId={jobId} moveToProfileScreen={moveToProfileScreen} />
+    <JobFromOthers
+      jobId={jobId}
+      moveToProfileScreen={moveToProfileScreen}
+      moveToChatScreen={moveToChatScreen}
+    />
   );
 };
 

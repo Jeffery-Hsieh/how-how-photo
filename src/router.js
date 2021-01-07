@@ -45,6 +45,11 @@ const SearchStack = () => (
       component={ProfileScreen}
       options={{ title: "介紹" }}
     />
+    <Stack.Screen
+      name="Chat"
+      component={ChatRoomScreen}
+      options={{ title: "" }}
+    />
   </Stack.Navigator>
 );
 
@@ -80,6 +85,17 @@ const FavoriteStack = () => (
       name="Detail"
       component={JobDetailScreen}
       options={{ title: "詳細內容" }}
+    />
+    <Stack.Screen
+      name="Profile"
+      component={ProfileScreen}
+      options={{ title: "介紹" }}
+    />
+
+    <Stack.Screen
+      name="Chat"
+      component={ChatRoomScreen}
+      options={{ title: "" }}
     />
   </Stack.Navigator>
 );
