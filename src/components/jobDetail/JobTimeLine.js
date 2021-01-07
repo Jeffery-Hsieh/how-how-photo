@@ -16,52 +16,57 @@ const Description = ({ title, name, date }) => (
   </View>
 );
 
-const JobTimeline = ({ moveToNextScreen }) => {
+const FINISHEDICON = require("../../assets/icons/circle-checked.png");
+const STARTICON = require("../../assets/icons/circle.png");
+
+const JobTimeline = ({ status, moveToNextScreen }) => {
+  const isFinished = status === "finished";
+
   const data = [
     {
       description: (
         <Description title={"正在找人選"} name={"王小明"} date={"2020/12/09"} />
       ),
-      icon: require("../../assets/icons/circle-checked.png"),
+      icon: FINISHEDICON,
     },
     {
       description: (
         <Description title={"確認人選中"} name={"王小明"} date={"2020/12/11"} />
       ),
-      icon: require("../../assets/icons/circle-checked.png"),
+      icon: FINISHEDICON,
     },
     {
       description: (
         <Description title={"雙方討論中"} name={"陳大東"} date={"2020/12/13"} />
       ),
-      icon: require("../../assets/icons/circle-checked.png"),
-      lineColor: "#00000035",
+      icon: FINISHEDICON,
+      lineColor: isFinished ? "#000000" : "#00000035",
     },
     {
       description: (
         <Description title={"執行中"} name={"陳大東"} date={"尚未執行"} />
       ),
-      icon: require("../../assets/icons/circle.png"),
-      lineColor: "#00000035",
+      icon: isFinished ? FINISHEDICON : STARTICON,
+      lineColor: isFinished ? "#000000" : "#00000035",
     },
     {
       description: (
         <Description title={"結案中"} name={"王小明"} date={"尚未執行"} />
       ),
-      icon: require("../../assets/icons/circle.png"),
-      lineColor: "#00000035",
+      icon: isFinished ? FINISHEDICON : STARTICON,
+      lineColor: isFinished ? "#000000" : "#00000035",
     },
     {
       description: (
         <Description title={"匯款中"} name={"陳大東"} date={"尚未執行"} />
       ),
-      icon: require("../../assets/icons/circle.png"),
-      lineColor: "#00000035",
+      icon: isFinished ? FINISHEDICON : STARTICON,
+      lineColor: isFinished ? "#000000" : "#00000035",
     },
     {
       description: <Description title={"撥款完成"} />,
-      icon: require("../../assets/icons/circle.png"),
-      lineColor: "#00000035",
+      icon: isFinished ? FINISHEDICON : STARTICON,
+      lineColor: isFinished ? "#000000" : "#00000035",
     },
   ];
 

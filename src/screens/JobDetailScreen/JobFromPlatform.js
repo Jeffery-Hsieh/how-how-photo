@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import JobDetailHeader from "../../components/jobDetail/Header";
-import JobDetailSubHeader from "../../components/jobDetail/SubHeader";
-import JobInfo from "../../components/jobDetail/JobInfo";
-import JobTimeline from "../../components/jobDetail/JobTimeLine";
 import { TabView, TabBar } from "react-native-tab-view";
 import { Icon } from "react-native-elements";
+
+import JobInfo from "../../components/jobDetail/JobInfo";
+import JobTimeline from "../../components/jobDetail/JobTimeLine";
 import useGetJobDetail from "../../hooks/useGetJobDetail";
 import jobs from "../../constants/jobs.json";
 
 const ROOMID = "W9OwGZS7GIdNc8DyDRd9";
 
-const JobFromPlatform = ({ jobId, moveToChatScreen, moveToRatingScreen }) => {
+const JobFromPlatform = ({ jobId, moveToProfileScreen }) => {
   const [index, setIndex] = useState(0);
   const [routes] = React.useState([
     { key: "detail", title: "詳細內容" },
@@ -27,9 +26,14 @@ const JobFromPlatform = ({ jobId, moveToChatScreen, moveToRatingScreen }) => {
   const renderScene = ({ route }) => {
     switch (route.key) {
       case "detail":
-        return <JobInfo moveToNextScreen={moveToRatingScreen} {...job} />;
+        return <JobInfo {...job} moveToNextScreen={moveToProfileScreen} />;
       case "timeline":
-        return <JobTimeline moveToNextScreen={moveToChatScreen} />;
+        return (
+          <JobTimeline
+            status={job.status}
+            moveToNextScreen={moveToProfileScreen}
+          />
+        );
       default:
         return null;
     }
@@ -44,24 +48,10 @@ const JobFromPlatform = ({ jobId, moveToChatScreen, moveToRatingScreen }) => {
     }
   };
 
-  const { title, sender, workers } = job;
+  const { sender, workers, facebookId, lineId, phone } = job;
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <JobDetailHeader
-          id={jobId}
-          name={sender}
-          platform="HOW"
-          workerNum={workers.length}
-          price={"15K"}
-        />
-      </View>
-      <JobDetailSubHeader
-        title={title}
-        startTime={"2020/12/09"}
-        endTime={"2020/12/24"}
-      />
       <TabView
         renderTabBar={(props) => (
           <TabBar
@@ -87,9 +77,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
   },
-  header: {
-    marginBottom: 12,
-  },
   tabBarContainer: {
     width: Dimensions.get("window").width,
   },
@@ -98,6 +85,13 @@ const styles = StyleSheet.create({
   },
   tabBarLabel: {
     color: "#000000",
+  },
+  infoView: {
+    paddingTop: 24,
+    paddingHorizontal: 24,
+  },
+  infoText: {
+    fontSize: 18,
   },
 });
 

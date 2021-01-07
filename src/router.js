@@ -23,7 +23,32 @@ import AddPortfolioScreen from "./screens/AddPortfolioScreen";
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const HomeStack = () => (
+const SearchStack = () => (
+  <Stack.Navigator initialRouteName="Search">
+    <Stack.Screen
+      name="Search"
+      component={SearchScreen}
+      options={{ title: "尋找" }}
+    />
+    <Stack.Screen
+      name="Filter"
+      component={SearchFilterScreen}
+      options={{ title: "搜尋條件" }}
+    />
+    <Stack.Screen
+      name="Detail"
+      component={JobDetailScreen}
+      options={{ title: "詳細內容" }}
+    />
+    <Stack.Screen
+      name="Profile"
+      component={ProfileScreen}
+      options={{ title: "介紹" }}
+    />
+  </Stack.Navigator>
+);
+
+const JobStack = () => (
   <Stack.Navigator initialRouteName="Find Jobs">
     <Stack.Screen
       name="Find Jobs"
@@ -36,35 +61,11 @@ const HomeStack = () => (
       options={{ title: "詳細內容" }}
     />
     <Stack.Screen
-      name="Rating"
-      component={UserRatingScreen}
-      options={{ title: "評價" }}
-    />
-    <Stack.Screen
       name="Chat"
       component={ChatRoomScreen}
       options={{ title: "" }}
     />
-  </Stack.Navigator>
-);
-
-const SearchStack = () => (
-  <Stack.Navigator initialRouteName="Search">
-    <Stack.Screen
-      name="Search"
-      component={SearchScreen}
-      options={{ title: "尋找案件" }}
-    />
-    <Stack.Screen
-      name="Filter"
-      component={SearchFilterScreen}
-      options={{ title: "搜尋條件" }}
-    />
-    <Stack.Screen
-      name="Detail"
-      component={JobDetailScreen}
-      options={{ title: "詳細內容" }}
-    />
+    <Stack.Screen name="Profile" component={ProfileScreen} />
   </Stack.Navigator>
 );
 
@@ -110,20 +111,25 @@ const ProfileStack = () => (
       component={AddPortfolioScreen}
       options={{ title: "新增作品集" }}
     />
+    <Stack.Screen
+      name="Rating"
+      component={UserRatingScreen}
+      options={{ title: "評價" }}
+    />
   </Stack.Navigator>
 );
 
 const BottomTabNavigator = () => (
-  <Tab.Navigator>
-    <Tab.Screen
-      name="Home"
-      component={HomeStack}
-      options={{ tabBarIcon: "home-outline" }}
-    />
+  <Tab.Navigator initialRouteName="Search">
     <Tab.Screen
       name="Search"
       component={SearchStack}
       options={{ tabBarIcon: "magnify" }}
+    />
+    <Tab.Screen
+      name="Jobs"
+      component={JobStack}
+      options={{ tabBarIcon: "briefcase" }}
     />
     <Tab.Screen
       name="Favorite"

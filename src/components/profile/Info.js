@@ -1,8 +1,11 @@
 import React from "react";
-import { Icon, Avatar } from "react-native-elements";
+import { Icon, Rating, Avatar } from "react-native-elements";
 import { View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-const Info = ({ name, occupation, imageURI, tags }) => {
+const STAR_IMAGE = require("../../assets/star.png");
+
+const Info = ({ name, occupation, imageURI, tags, moveToNextScreen }) => {
   return (
     <>
       <Avatar
@@ -27,6 +30,25 @@ const Info = ({ name, occupation, imageURI, tags }) => {
           </View>
         ))}
       </View>
+      <TouchableOpacity
+        containerStyle={styles.rating}
+        onPress={moveToNextScreen}
+      >
+        <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
+          <Text style={{ fontSize: 40, marginRight: 4 }}>{`${3.5}`}</Text>
+          <Text style={{ marginBottom: 8 }}>評價</Text>
+        </View>
+        <Rating
+          readonly
+          style={styles.reviewRating}
+          ratingImage={STAR_IMAGE}
+          type="custom"
+          ratingCount={5}
+          imageSize={16}
+          startingValue={4.5}
+          ratingColor="#99C1DE"
+        />
+      </TouchableOpacity>
     </>
   );
 };
@@ -55,6 +77,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginRight: 12,
+  },
+  rating: {
+    position: "absolute",
+    right: 10,
+    top: 10,
   },
 });
 

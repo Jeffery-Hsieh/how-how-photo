@@ -1,9 +1,14 @@
 import React, { useState, useLayoutEffect } from "react";
-import { StyleSheet } from "react-native";
-import { Text, View } from "react-native";
-import { Icon } from "react-native-elements";
+import { StyleSheet, View } from "react-native";
+import { Icon, Divider } from "react-native-elements";
 
 import TagSelector from "../../components/searchFilter/TagSelector";
+
+const PLATFORM = [
+  { label: "instagram", value: "instagram" },
+  { label: "facebook", value: "facebook" },
+  { label: "line", value: "line" },
+];
 
 const PLACES = [
   { label: "台北", value: "台北" },
@@ -65,7 +70,15 @@ const SearchFilterScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View></View>
+      <View style={styles.selectorView}>
+        <TagSelector
+          title="案件來源"
+          tags={PLATFORM}
+          selectedTags={selectedTags}
+          handleTagSelect={handleTagSelect}
+        />
+      </View>
+      <Divider />
       <View style={styles.selectorView}>
         <TagSelector
           title="地區"
@@ -74,6 +87,7 @@ const SearchFilterScreen = ({ navigation }) => {
           handleTagSelect={handleTagSelect}
         />
       </View>
+      <Divider />
       <View style={styles.selectorView}>
         <TagSelector
           title="標籤"
@@ -93,7 +107,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   selectorView: {
-    marginBottom: 24,
+    marginVertical: 24,
   },
 });
 

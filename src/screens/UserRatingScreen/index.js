@@ -33,6 +33,8 @@ const UserRatingScreen = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [reviews, setReviews] = useState(REVIEWS);
 
+  const { name, imageURI } = route.params;
+
   const handleReviewAdd = (review, rate) => {
     let newReviews = [
       {
@@ -59,10 +61,10 @@ const UserRatingScreen = ({ route }) => {
           rounded
           containerStyle={styles.avatar}
           size="large"
-          source={{ uri: "https://i.pravatar.cc/300?img=49" }}
+          source={{ uri: imageURI }}
         />
         <View>
-          <Text style={styles.infoTitle}>陳小美</Text>
+          <Text style={styles.infoTitle}>{name}</Text>
           <Text style={styles.infoText}>演員</Text>
         </View>
       </View>

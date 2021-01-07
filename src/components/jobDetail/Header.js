@@ -1,10 +1,17 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { Avatar } from "react-native-elements";
 
-const JobDetailHeader = ({ id, name, platform, workerNum, price }) => (
+const JobDetailHeader = ({
+  id,
+  name,
+  platform,
+  workerNum,
+  price,
+  avatarOnPress,
+}) => (
   <View style={styles.container}>
-    <View style={styles.colView}>
+    <TouchableOpacity style={styles.avatarView} onPress={avatarOnPress}>
       <Avatar
         rounded
         containerStyle={styles.avatar}
@@ -12,7 +19,7 @@ const JobDetailHeader = ({ id, name, platform, workerNum, price }) => (
         source={{ uri: `https://i.pravatar.cc/300?img=${id}` }}
       />
       <Text style={styles.name}>{name}</Text>
-    </View>
+    </TouchableOpacity>
     <View style={styles.colView}>
       <Text style={styles.title}>{platform}</Text>
       <Text style={styles.text}>來源</Text>
@@ -30,17 +37,28 @@ const JobDetailHeader = ({ id, name, platform, workerNum, price }) => (
 
 const styles = StyleSheet.create({
   container: {
-    height: 120,
-    marginTop: 24,
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-around",
+    alignItems: "center",
+    marginVertical: 24,
+  },
+  avatarView: {
+    alignItems: "center",
   },
   avatar: {
     marginBottom: 16,
   },
-  name: {
-    fontSize: 16,
+  headerView: {
+    marginBottom: 32,
+    paddingLeft: 12,
+  },
+  headerTitle: {
+    fontSize: 24,
+    marginBottom: 12,
+    fontWeight: "bold",
+  },
+  headerText: {
+    color: "#979797",
   },
   colView: {
     alignItems: "center",
@@ -48,6 +66,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
+    marginBottom: 4,
   },
   text: {
     color: "#979797",

@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#ffffff50",
     alignItems: "center",
+    marginBottom: 24,
   },
   icon: {
     paddingVertical: 40,

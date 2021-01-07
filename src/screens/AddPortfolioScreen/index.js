@@ -10,7 +10,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 
-const AddPortfolioScreen = ({ navigation }) => {
+const AddPortfolioScreen = ({ navigation, route }) => {
   const [entries, setEntries] = useState([
     {
       title: "上傳檔案",
@@ -26,15 +26,17 @@ const AddPortfolioScreen = ({ navigation }) => {
         "請選擇適合的標籤讓其他人能更快搜尋到你的作品集，另外也可以自行創建具個人風格的tag",
     },
   ]);
+  const { addImages } = route.params;
   const [activeSlide, setActiveSlide] = useState(0);
   const [pieces, setPieces] = useState({});
   const [pieceId, setPieceId] = useState(200);
 
   const handlePhotoIncrement = () => {
+    const newImageURI = `https://picsum.photos/id/${pieceId}/300/200`;
     setPieces({
       ...pieces,
       [pieceId]: {
-        uri: `https://picsum.photos/id/${pieceId}/300/200`,
+        uri: newImageURI,
         description: "",
         tags: new Set(),
       },
@@ -48,8 +50,6 @@ const AddPortfolioScreen = ({ navigation }) => {
     setPieces(newPieces);
   };
 
-  const removePiece = () => {};
-
   const handleTagChange = (id, newTag) => {
     let newPieces = { ...pieces };
     if (newPieces[id].tags.has(newTag)) {
@@ -58,6 +58,16 @@ const AddPortfolioScreen = ({ navigation }) => {
       newPieces[id].tags.add(newTag);
     }
     setPieces(newPieces);
+  };
+
+  const removePiece = () => {};
+
+  const handelComplete = () => {
+    const newImages = Object.keys(pieces).map((key) => {
+      return { id: key, uri: pieces[key].uri };
+    });
+    addImages(newImages);
+    navigation.goBack();
   };
 
   const photos = Object.keys(pieces).map((id) => {
@@ -90,7 +100,7 @@ const AddPortfolioScreen = ({ navigation }) => {
         <View style={instructionStyle.closeView}>
           <TouchableOpacity
             style={instructionStyle.closeBtn}
-            onPress={() => navigation.goBack()}
+            onPress={handelComplete}
           >
             <Text style={instructionStyle.closeBtnText}>完成</Text>
           </TouchableOpacity>

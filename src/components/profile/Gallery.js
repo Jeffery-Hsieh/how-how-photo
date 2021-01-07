@@ -2,16 +2,11 @@ import React from "react";
 import { Image, FlatList, View, StyleSheet, Text } from "react-native";
 import { Icon } from "react-native-elements";
 
-const images = [
-  { id: 0, uri: require("../../assets/gallery1_1.png") },
-  { id: 1, uri: require("../../assets/gallery1_2.png") },
-  { id: 2, uri: require("../../assets/gallery1_3.png") },
-  { id: 3, uri: require("../../assets/gallery1_4.png") },
-];
-
-const Gallery = () => {
+const Gallery = ({ images }) => {
   const renderItem = ({ item }) => (
-    <Image style={styles.galleryImage} source={item.uri} />
+    <View style={styles.imageView}>
+      <Image style={styles.image} source={{ uri: item.uri }} />
+    </View>
   );
 
   return (
@@ -53,11 +48,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18,
   },
-  galleryImage: {
-    width: "50%",
+  imageView: {
+    backgroundColor: "#ffffff",
+    width: "49%",
     borderRadius: 8,
-    marginRight: 12,
+    marginRight: 6,
+    padding: 12,
     marginBottom: 12,
+  },
+  image: {
+    width: "100%",
+    aspectRatio: 3 / 2,
   },
 });
 

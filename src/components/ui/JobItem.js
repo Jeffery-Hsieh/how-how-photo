@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Icon, Avatar } from "react-native-elements";
+import { TapGestureHandler } from "react-native-gesture-handler";
 import AppBtn from "./AppBtn";
 import IconWithText from "./IconWithText";
 
@@ -13,22 +14,19 @@ const icons = {
 const JobItem = ({
   id,
   title,
-  workers,
+  type,
   sendAt,
   start_time,
   end_time,
+  occupation,
   platform,
-  location,
-  email,
+  price,
+  tags,
   status,
   moveToNextScreen,
 }) => {
-  const showFavoriteIcon = status == "start" || status == "favorite";
-  const unCommentedWorker = workers.filter((worker) => {
-    return !worker["hasReview"];
-  });
-  const showUnCommentIndicator =
-    status == "finished" && unCommentedWorker.length > 0;
+  const showFavoriteIcon = status === "start" || status === "favorite";
+  const showUnCommentIndicator = status === "finished" && platform === "self";
 
   return (
     <View style={styles.container}>
@@ -43,15 +41,26 @@ const JobItem = ({
           <View style={styles.titleView}>
             <Image source={icons[platform]} />
             <Text style={styles.title} numberOfLines={1}>
-              {title}
+              {type}
             </Text>
           </View>
+          <IconWithText iconName="clipboard-account" text={occupation} />
           <IconWithText
             iconName="clock-time-three-outline"
             text={`${start_time || sendAt} ~ ${end_time}`}
           />
-          <IconWithText iconName="map-marker" text={location} />
-          <IconWithText iconName="email-send-outline" text={email} />
+          <IconWithText iconName="currency-usd" text={price} />
+          <View style={{ flexDirection: "row" }}>
+            {tags.map((tag) => {
+              return (
+                <IconWithText
+                  key={tag}
+                  iconName="tag-outline"
+                  text={tag}
+                ></IconWithText>
+              );
+            })}
+          </View>
         </View>
       </TouchableOpacity>
       {showFavoriteIcon && (
@@ -68,7 +77,7 @@ const JobItem = ({
         <View style={styles.othersBtnView}>
           <AppBtn
             containerStyle={{ backgroundColor: "#FD9494" }}
-            text={`尚有${unCommentedWorker.length}人未評價`}
+            text="尚未評價"
             isSelected={status == "favorite"}
             selectedColor="#B9B8B7"
             disabled={true}
@@ -87,11 +96,11 @@ const JobItem = ({
 };
 const styles = StyleSheet.create({
   container: {
-    height: 200,
+    height: 240,
     alignItems: "center",
     backgroundColor: "#C6DCDC",
     borderRadius: 8,
-    marginBottom: 24,
+    marginBottom: 12,
     paddingVertical: 8,
   },
   cardView: {

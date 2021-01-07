@@ -1,30 +1,44 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import IconWithText from "../ui/IconWithText";
 
-const JobDetailSubHeader = ({ title, startTime, endTime }) => {
+const JobDetailSubHeader = ({ facebookId, lineId, phone }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.text}>時程：{`${startTime}-${endTime}`}</Text>
+      <View style={styles.iconView}>
+        <IconWithText
+          iconSource="font-awesome-5"
+          iconName="facebook"
+          text={facebookId || "-"}
+        />
+      </View>
+      <Text>|</Text>
+      <View style={styles.iconView}>
+        <IconWithText
+          iconSource="font-awesome-5"
+          iconName="line"
+          text={lineId || "-"}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 16,
-    marginBottom: 20,
+    height: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  iconView: {
+    flex: 1,
+    alignItems: "center",
   },
   title: {
-    fontSize: 20,
-    color: "#120E21",
-    fontWeight: "bold",
-    marginBottom: 8,
+    fontSize: 24,
   },
-  text: {
-    color: "#979797",
-    fontSize: 16,
-  },
+  contactView: {},
 });
 
 export default JobDetailSubHeader;

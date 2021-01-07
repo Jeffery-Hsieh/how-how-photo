@@ -1,16 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { ScrollView, StyleSheet, View, TextInput } from "react-native";
+import { Icon } from "react-native-elements";
+import { CommonActions } from "@react-navigation/native";
+
 import useGetJobs from "../../hooks/useGetJobs";
 import JobList from "../../components/ui/JobList";
-import { Icon } from "react-native-elements";
 import AppSearchBar from "../../components/ui/AppSearchBar";
+import jobsHack from "../../constants/jobs.json";
 import _ from "lodash";
 
 const SearchScreen = ({ navigation, route }) => {
-  const [jobs] = useGetJobs("start");
+  const [jobs, { setJobs }] = useGetJobs("start");
   const [searchText, setSearchText] = useState("");
 
-  const filteredJobsByTags = route.params ? _.sampleSize(jobs, 2) : jobs;
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Icon
+          type="material-community"
+          name="head-snowflake-outline"
+          style={{ marginRight: 12 }}
+          onPress={() => {
+            setJobs([jobsHack[2]]);
+          }}
+        />
+      ),
+      headerLeft: () => (
+        <Icon
+          type="material-community"
+          name="restore"
+          style={{ marginLeft: 12 }}
+          onPress={() => {
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{ name: "Search" }],
+              })
+            );
+          }}
+        />
+      ),
+    });
+  }, [navigation]);
+
+  const filteredJobsByTags = route.params ? [jobs[0], jobs[1]] : jobs;
 
   const filteredJobsByText = searchText
     ? filteredJobsByTags.filter((job) => {

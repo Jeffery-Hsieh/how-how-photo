@@ -37,6 +37,7 @@
     "react-native-svg-icon": "^0.9.0",
     "react-native-svg-transformer": "^0.14.3",
     "react-native-tab-view": "^2.15.2",
+    "react-native-tags-input": "^1.0.10",
     "react-native-timeline-flatlist": "^0.7.3",
     "react-native-web": "~0.13.12",
     "react-native-webview": "11.0.0"

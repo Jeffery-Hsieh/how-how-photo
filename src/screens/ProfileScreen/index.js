@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useContext } from "react";
+import React, { useLayoutEffect, useContext, useState } from "react";
 import { Dimensions } from "react-native";
 import { ScrollView, View, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
@@ -9,26 +9,21 @@ import Gallery from "../../components/profile/Gallery";
 import Info from "../../components/profile/Info";
 import AddBtn from "../../components/ui/AddBtn";
 
-const ProfileScreen = ({ navigation }) => {
-  console.disableYellowBox = true;
-
-  const moveToAddPortfolio = () => navigation.navigate("Add Portfolio");
+const ProfileScreen = ({ navigation, route }) => {
   const [session, setSession] = useContext(SessionContext);
+
+  const [images, setImages] = useState([
+    { id: 100, uri: "https://picsum.photos/id/100/300/200" },
+    { id: 101, uri: "https://picsum.photos/id/101/300/200" },
+    { id: 102, uri: "https://picsum.photos/id/102/300/200" },
+    { id: 103, uri: "https://picsum.photos/id/103/300/200" },
+  ]);
 
   const { user } = session;
 
-  const changeUser = () => {
-    const newUser = user.id == userHack[0].id ? userHack[1] : userHack[0];
-
-    setSession({
-      ...session,
-      user: newUser,
-    });
-  };
-
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
+      headerRight: () => (
         <Icon
           style={styles.accountIcon}
           type="material-community"
@@ -39,14 +34,37 @@ const ProfileScreen = ({ navigation }) => {
     });
   }, [navigation, user]);
 
+  const changeUser = () => {
+    const newUser = user.id == userHack[0].id ? userHack[1] : userHack[0];
+
+    setSession({
+      ...session,
+      user: newUser,
+    });
+  };
+
+  const addImages = (newImages) => {
+    const imagesCopy = [...images];
+    setImages(imagesCopy.concat(newImages));
+  };
+
+  const moveToRatingScreen = () => {
+    navigation.navigate("Rating", { name: user.name, imageURI: user.imageURI });
+  };
+
+  const moveToAddPortfolio = () =>
+    navigation.navigate("Add Portfolio", {
+      addImages: addImages,
+    });
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.bg}></View>
       <View style={styles.infoView}>
-        <Info {...user} />
+        <Info {...user} moveToNextScreen={moveToRatingScreen} />
       </View>
       <View style={styles.galleryView}>
-        <Gallery />
+        <Gallery images={images} />
         <AddBtn onPress={moveToAddPortfolio} />
       </View>
     </ScrollView>
@@ -55,14 +73,13 @@ const ProfileScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     paddingTop: 12,
     paddingHorizontal: 16,
     backgroundColor: "#ffffff",
   },
   bg: {
     position: "absolute",
-    top: 80,
+    top: 100,
     left: 0,
     right: 0,
     height: Dimensions.get("window").height,
@@ -72,7 +89,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   accountIcon: {
-    marginLeft: 12,
+    marginRight: 12,
   },
 });
 
