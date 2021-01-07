@@ -1,6 +1,5 @@
 import React from "react";
 import { TouchableOpacity, View, StyleSheet, Text } from "react-native";
-import { Icon } from "react-native-elements";
 
 const AppBtn = ({
   text,
@@ -9,10 +8,15 @@ const AppBtn = ({
   onTagPress,
   isSelected,
   selectedColor,
+  disabled,
 }) => {
   const tagClickColor = selectedColor || "#F7D86A";
   return (
-    <TouchableOpacity style={[styles.container]} onPress={onTagPress}>
+    <TouchableOpacity
+      style={[styles.container]}
+      onPress={onTagPress}
+      disabled={disabled}
+    >
       <View
         style={[
           styles.view,

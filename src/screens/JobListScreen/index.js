@@ -16,16 +16,8 @@ const JobListScreen = ({ navigation }) => {
 
   const [jobs, setStatus] = useGetJobs(routes[index].key);
 
-  const goToFinishedJobDetailScreen = (id) => {
-    navigation.navigate("Detail", {
-      reviewEnabled: true,
-    });
-  };
-  const goToProceedingDetailScreen = (id) => {
-    navigation.navigate("Detail", {
-      reviewEnabled: false,
-    });
-  };
+  const moveToDetail = (id, platform) =>
+    navigation.navigate("Detail", { jobId: id, platform: platform });
 
   useEffect(() => {
     setStatus(routes[index].key);
@@ -36,13 +28,13 @@ const JobListScreen = ({ navigation }) => {
       case "proceeding":
         return (
           <ScrollView style={styles.jobListView}>
-            <JobList jobs={jobs} itemClick={goToProceedingDetailScreen} />
+            <JobList jobs={jobs} itemClick={moveToDetail} />
           </ScrollView>
         );
       case "finished":
         return (
           <ScrollView style={styles.jobListView}>
-            <JobList jobs={jobs} itemClick={goToFinishedJobDetailScreen} />
+            <JobList jobs={jobs} itemClick={moveToDetail} />
           </ScrollView>
         );
       default:

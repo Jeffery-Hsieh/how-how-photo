@@ -1,34 +1,21 @@
 import React, { useEffect, useContext } from "react";
-import { Text, StyleSheet, View, ActivityIndicator } from "react-native";
+import { ActivityIndicator, Text, StyleSheet, View } from "react-native";
+import { WebView } from "react-native-webview";
 import { GiftedChat, Send } from "react-native-gifted-chat";
 import { Icon, Avatar } from "react-native-elements";
 import { BlurView } from "expo-blur";
 import * as firebase from "firebase";
+import { Video } from "expo-av";
 
 import { userHack, portfolio } from "../../store/constant";
 import SessionContext from "../../store/context";
 import useGetChatRoomMessages from "../../hooks/useGetChatRoomMessages";
-
-const MATCHTEXT = portfolio.map((item) => {
-  return item.matchText;
-});
 
 const ChatScreen = ({ route }) => {
   const [session] = useContext(SessionContext);
   const { firebase, user } = session;
   const { roomId } = route.params;
   const [{ messages, isLoading }] = useGetChatRoomMessages(firebase, roomId);
-
-  const addAutoReplyListener = (message) => {
-    console.log(message);
-    portfolio.forEach((item) => {
-      if (message.text.includes(item.matchText)) {
-        if (message["user"]["_id"] == userHack[1].id) {
-          sendToFirebase(userHack[0].id, item.text, item.imageURI);
-        }
-      }
-    });
-  };
 
   useEffect(() => {
     const latestMessage = messages.length && messages[0];
@@ -37,7 +24,22 @@ const ChatScreen = ({ route }) => {
     }
   }, [messages]);
 
-  const sendToFirebase = async (userId, newText, newImage) => {
+  const addAutoReplyListener = (message) => {
+    portfolio.forEach((item) => {
+      if (message.text.includes(item.matchText)) {
+        if (message["user"]["_id"] == userHack[1].id) {
+          sendToFirebase(
+            userHack[0].id,
+            item.text,
+            item.imageURI,
+            item.videoURI
+          );
+        }
+      }
+    });
+  };
+
+  const sendToFirebase = async (userId, newText, newImage, newVideo) => {
     firebase
       .firestore()
       .collection("messages")
@@ -47,6 +49,7 @@ const ChatScreen = ({ route }) => {
         sendAt: firebase.firestore.Timestamp.fromDate(new Date()),
         text: newText,
         imageURI: newImage,
+        videoURI: newVideo,
         sender: userId,
       });
     firebase.firestore().collection("messages").doc(roomId).set({
@@ -57,8 +60,23 @@ const ChatScreen = ({ route }) => {
   const handleSend = async (messages) => {
     const text = messages[0].text || "";
     const imageURI = messages[0].image || "";
+    const videoURI = messages[0].video || "";
 
-    sendToFirebase(user.id, text, imageURI);
+    sendToFirebase(user.id, text, imageURI, videoURI);
+  };
+
+  const renderMessageVideo = (props) => {
+    const { currentMessage } = props;
+    return (
+      <View style={{ width: 300, aspectRatio: 16 / 9, padding: 12 }}>
+        <WebView
+          javaScriptEnabled={true}
+          source={{ uri: currentMessage.video }}
+          mediaPlaybackRequiresUserAction={true}
+          startInLoadingState={<ActivityIndicator />}
+        />
+      </View>
+    );
   };
 
   // const renderSend = (props) => {
@@ -110,6 +128,7 @@ const ChatScreen = ({ route }) => {
         alwaysShowSend={true}
         placeholder="輸入文字..."
         renderLoading={renderLoading}
+        renderMessageVideo={renderMessageVideo}
         listViewProps={{
           style: {
             backgroundColor: "white",

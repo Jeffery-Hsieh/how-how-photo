@@ -20,7 +20,8 @@ const SearchScreen = ({ navigation, route }) => {
 
   const moveToFilter = () => navigation.navigate("Filter");
 
-  const moveToDetail = () => navigation.navigate("Detail");
+  const moveToDetail = (id, platform) =>
+    navigation.navigate("Detail", { jobId: id, platform: platform });
 
   const handleSearchChange = (text) => {
     setSearchText(text);

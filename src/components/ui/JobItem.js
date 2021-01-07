@@ -2,6 +2,7 @@ import React from "react";
 import { Image, View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Icon, Avatar } from "react-native-elements";
 import AppBtn from "./AppBtn";
+import IconWithText from "./IconWithText";
 
 const icons = {
   line: require("../../assets/icons/line.png"),
@@ -12,106 +13,100 @@ const icons = {
 const JobItem = ({
   id,
   title,
+  workers,
   sendAt,
   start_time,
   end_time,
   platform,
   location,
-  phone,
+  email,
   status,
-  review,
-  isFavorite,
   moveToNextScreen,
 }) => {
+  const showFavoriteIcon = status == "start" || status == "favorite";
+  const unCommentedWorker = workers.filter((worker) => {
+    return !worker["hasReview"];
+  });
+  const showUnCommentIndicator =
+    status == "finished" && unCommentedWorker.length > 0;
+
   return (
-    <TouchableOpacity style={styles.container} onPress={moveToNextScreen}>
-      <Avatar
-        rounded
-        containerStyle={styles.avatar}
-        size="large"
-        source={{ uri: `https://i.pravatar.cc/300?img=${id}` }}
-      />
-      <View style={styles.description}>
-        <View style={styles.titleView}>
-          <Image source={icons[platform]} />
-          <Text style={styles.title} numberOfLines={1}>
-            {title}
-          </Text>
-          {status == "finished" && review.length < 3 && (
-            <AppBtn
-              text={3 - review.length}
-              containerStyle={styles.reminderTagContainer}
-              tagStyle={styles.reminderText}
-            />
-          )}
-        </View>
-        <View style={styles.rowView}>
-          <Icon
-            type="material-community"
-            containerStyle={styles.icon}
-            color="#787885"
-            name="clock-time-three-outline"
-            size={24}
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.cardView} onPress={moveToNextScreen}>
+        <Avatar
+          rounded
+          containerStyle={styles.avatar}
+          size="large"
+          source={{ uri: `https://i.pravatar.cc/300?img=${id}` }}
+        />
+        <View style={styles.infoView}>
+          <View style={styles.titleView}>
+            <Image source={icons[platform]} />
+            <Text style={styles.title} numberOfLines={1}>
+              {title}
+            </Text>
+          </View>
+          <IconWithText
+            iconName="clock-time-three-outline"
+            text={`${start_time || sendAt} ~ ${end_time}`}
           />
-          <Text>{`${start_time || sendAt} ~`}</Text>
-          <Text>{end_time}</Text>
+          <IconWithText iconName="map-marker" text={location} />
+          <IconWithText iconName="email-send-outline" text={email} />
         </View>
-        <View style={styles.rowView}>
-          <Icon
-            type="material-community"
-            containerStyle={styles.icon}
-            name="map-marker"
-            color="#787885"
-            size={24}
-          />
-          <Text>{location}</Text>
-        </View>
-        <View style={styles.rowView}>
-          <Icon
-            type="material-community"
-            containerStyle={styles.icon}
-            name="phone"
-            color="#787885"
-            size={24}
-          />
-          <Text>{phone}</Text>
-        </View>
-      </View>
-      <Icon
-        type="material-community"
-        style={styles.rightBtn}
-        name="chevron-right"
-        onPress={moveToNextScreen}
-      />
-      {status == "start" && (
+      </TouchableOpacity>
+      {showFavoriteIcon && (
         <View style={styles.othersBtnView}>
-          <AppBtn text="收藏" />
+          <AppBtn
+            text="收藏"
+            isSelected={status == "favorite"}
+            selectedColor="#B9B8B7"
+          />
           <AppBtn text="應徵" />
         </View>
       )}
-    </TouchableOpacity>
+      {showUnCommentIndicator && (
+        <View style={styles.othersBtnView}>
+          <AppBtn
+            containerStyle={{ backgroundColor: "#FD9494" }}
+            text={`尚有${unCommentedWorker.length}人未評價`}
+            isSelected={status == "favorite"}
+            selectedColor="#B9B8B7"
+            disabled={true}
+          />
+        </View>
+      )}
+      <View style={styles.goToDetailView}>
+        <Icon
+          type="material-community"
+          name="chevron-right"
+          onPress={moveToNextScreen}
+        />
+      </View>
+    </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    height: 160,
-    flexDirection: "row",
+    height: 200,
     alignItems: "center",
     backgroundColor: "#C6DCDC",
     borderRadius: 8,
     marginBottom: 24,
     paddingVertical: 8,
   },
+  cardView: {
+    flex: 5,
+    marginTop: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
   avatar: {
     marginHorizontal: 16,
   },
-  description: {
+  infoView: {
     flex: 1,
     justifyContent: "space-around",
-  },
-  icon: {
-    width: 30,
-    height: 30,
   },
   titleView: {
     flex: 1,
@@ -135,23 +130,18 @@ const styles = StyleSheet.create({
   reminderText: {
     fontSize: 12,
   },
-  rowView: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 4,
-  },
   icon: {
     marginRight: 4,
   },
-  rightBtn: {
-    marginRight: 20,
-  },
   othersBtnView: {
+    flex: 1,
     flexDirection: "row",
+    alignSelf: "flex-end",
+  },
+  goToDetailView: {
     position: "absolute",
-    right: 0,
-    bottom: 8,
+    top: "50%",
+    right: 8,
   },
 });
 

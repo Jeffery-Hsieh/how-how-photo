@@ -4,9 +4,16 @@ import { View, Text, ScrollView } from "react-native";
 import JobItem from "./JobItem";
 
 const JobList = ({ jobs, itemClick }) => {
-  const jobItems = jobs.map((job) => (
-    <JobItem key={job.id} moveToNextScreen={() => itemClick(job.id)} {...job} />
-  ));
+  const jobItems = jobs.map((job) => {
+    const { id, platform } = job;
+    return (
+      <JobItem
+        key={job.id}
+        moveToNextScreen={() => itemClick(id, platform)}
+        {...job}
+      />
+    );
+  });
 
   if (!jobItems.length) {
     return (

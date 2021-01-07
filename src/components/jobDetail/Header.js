@@ -2,16 +2,16 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Avatar } from "react-native-elements";
 
-const JobDetailHeader = ({ name, platform, workerNum, price }) => (
+const JobDetailHeader = ({ id, name, platform, workerNum, price }) => (
   <View style={styles.container}>
     <View style={styles.colView}>
       <Avatar
         rounded
         containerStyle={styles.avatar}
         size="medium"
-        source={{ uri: `https://i.pravatar.cc/300?img=1` }}
+        source={{ uri: `https://i.pravatar.cc/300?img=${id}` }}
       />
-      <Text>{name}</Text>
+      <Text style={styles.name}>{name}</Text>
     </View>
     <View style={styles.colView}>
       <Text style={styles.title}>{platform}</Text>
@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
   },
   avatar: {
     marginBottom: 16,
+  },
+  name: {
+    fontSize: 16,
   },
   colView: {
     alignItems: "center",

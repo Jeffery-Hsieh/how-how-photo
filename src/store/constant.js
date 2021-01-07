@@ -16,6 +16,16 @@ export const userHack = [
 ];
 
 export const portfolio = [
-  { matchText: "作品集", imageURI: "https://picsum.photos/200", text: "" },
-  { matchText: "基本資料", imageURI: "", text: "身高160\n體重45\n" },
+  {
+    matchText: "作品集",
+    imageURI: "",
+    videoURI: "https://youtu.be/zLgZUdCJKws",
+    text: "",
+  },
+  {
+    matchText: "基本資料",
+    imageURI: "",
+    videoURI: "",
+    text: "身高160\n體重45\n",
+  },
 ];

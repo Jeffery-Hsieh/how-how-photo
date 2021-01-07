@@ -75,6 +75,11 @@ const FavoriteStack = () => (
       component={FavoriteScreen}
       options={{ title: "收藏" }}
     />
+    <Stack.Screen
+      name="Detail"
+      component={JobDetailScreen}
+      options={{ title: "詳細內容" }}
+    />
   </Stack.Navigator>
 );
 
