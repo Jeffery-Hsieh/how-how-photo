@@ -4,7 +4,7 @@ import { StyleSheet, ScrollView, Text } from "react-native";
 import JobList from "../../components/ui/JobList";
 
 const Favorite = ({ navigation }) => {
-  const [jobs, setStatus] = useGetJobs("favorite");
+  const [jobs, { setStatus }] = useGetJobs("favorite");
 
   const goToDetailScreen = (id, platform) => {
     navigation.navigate("Detail", { jobId: id, platform: platform });

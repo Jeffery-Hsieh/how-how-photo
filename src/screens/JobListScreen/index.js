@@ -14,7 +14,7 @@ const JobListScreen = ({ navigation }) => {
     { key: "finished", title: "已結案" },
   ]);
 
-  const [jobs, setStatus] = useGetJobs(routes[index].key);
+  const [jobs, { setStatus }] = useGetJobs(routes[index].key);
 
   const moveToDetail = (id, platform) =>
     navigation.navigate("Detail", { jobId: id, platform: platform });

@@ -12,7 +12,7 @@ const useGetJobs = (initStatus) => {
     setJobs(response);
   }, [status]);
 
-  return [jobs, setStatus];
+  return [jobs, { setStatus, setJobs }];
 };
 
 export default useGetJobs;

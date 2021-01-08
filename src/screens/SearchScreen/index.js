@@ -19,7 +19,7 @@ const SearchScreen = ({ navigation, route }) => {
     { key: "findUsers", title: "找人才" },
   ]);
 
-  const [jobs] = useGetJobs("start");
+  const [jobs, { setJobs }] = useGetJobs("start");
   const [users] = useGetUsers();
   const [searchText, setSearchText] = useState("");
 
