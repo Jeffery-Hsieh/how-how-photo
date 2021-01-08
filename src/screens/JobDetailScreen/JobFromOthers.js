@@ -31,7 +31,7 @@ const JobFromOthers = ({ jobId, moveToProfileScreen, moveToChatScreen }) => {
         platform={platform.toUpperCase()}
         workerNum={"-"}
         price={"-"}
-        avatarOnPress={moveToProfileScreen}
+        avatarOnPress={() => moveToProfileScreen(jobId)}
       />
       <JobDetailSubHeader
         id={jobId}

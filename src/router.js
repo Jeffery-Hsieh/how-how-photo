@@ -46,6 +46,11 @@ const SearchStack = () => (
       options={{ title: "介紹" }}
     />
     <Stack.Screen
+      name="Rating"
+      component={UserRatingScreen}
+      options={{ title: "評價" }}
+    />
+    <Stack.Screen
       name="Chat"
       component={ChatRoomScreen}
       options={{ title: "" }}

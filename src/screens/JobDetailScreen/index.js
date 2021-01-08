@@ -8,8 +8,8 @@ const ROOMID = "W9OwGZS7GIdNc8DyDRd9";
 const JobDetailScreen = ({ navigation, route }) => {
   const { jobId, platform } = route.params;
 
-  const moveToProfileScreen = () => {
-    navigation.navigate("Profile");
+  const moveToProfileScreen = (userId) => {
+    navigation.navigate("Profile", { userId: userId });
   };
 
   const moveToChatScreen = () => {

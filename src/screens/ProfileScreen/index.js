@@ -11,6 +11,8 @@ import AddBtn from "../../components/ui/AddBtn";
 
 const ProfileScreen = ({ navigation, route }) => {
   const [session, setSession] = useContext(SessionContext);
+  const userId = route.params && route.params.userId;
+  console.log(userId);
 
   const [images, setImages] = useState([
     { id: 100, uri: "https://picsum.photos/id/100/300/200" },
@@ -57,11 +59,18 @@ const ProfileScreen = ({ navigation, route }) => {
       addImages: addImages,
     });
 
+  const userDisplay = userId
+    ? {
+        ...user,
+        imageURI: `https://i.pravatar.cc/300?img=${userId}`,
+      }
+    : user;
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.bg}></View>
       <View style={styles.infoView}>
-        <Info {...user} moveToNextScreen={moveToRatingScreen} />
+        <Info {...userDisplay} moveToNextScreen={moveToRatingScreen} />
       </View>
       <View style={styles.galleryView}>
         <Gallery images={images} />

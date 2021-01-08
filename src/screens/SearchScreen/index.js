@@ -1,16 +1,26 @@
 import React, { useState, useLayoutEffect } from "react";
-import { ScrollView, StyleSheet, View, TextInput } from "react-native";
+import { ScrollView, StyleSheet, View, TextInput, Text } from "react-native";
 import { Icon } from "react-native-elements";
 import { CommonActions } from "@react-navigation/native";
+import { TabBar } from "react-native-tab-view";
+import { TabView } from "react-native-tab-view";
 
 import useGetJobs from "../../hooks/useGetJobs";
-import JobList from "../../components/ui/JobList";
-import AppSearchBar from "../../components/ui/AppSearchBar";
+import useGetUsers from "../../hooks/useGetUsers";
 import jobsHack from "../../constants/jobs.json";
+import SearchJobScreen from "./SearchJobScreen";
+import SearchUserScreen from "./SearchUserScreen";
 import _ from "lodash";
 
 const SearchScreen = ({ navigation, route }) => {
-  const [jobs, { setJobs }] = useGetJobs("start");
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: "findJobs", title: "找案源" },
+    { key: "findUsers", title: "找人才" },
+  ]);
+
+  const [jobs] = useGetJobs("start");
+  const [users] = useGetUsers();
   const [searchText, setSearchText] = useState("");
 
   useLayoutEffect(() => {
@@ -43,42 +53,88 @@ const SearchScreen = ({ navigation, route }) => {
     });
   }, [navigation]);
 
-  const filteredJobsByTags = route.params ? [jobs[0], jobs[1]] : jobs;
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case "findJobs":
+        return (
+          <SearchJobScreen
+            jobs={jobs}
+            moveToDetailScreen={moveToDetailScreen}
+            moveToFilterScreen={moveToFilterScreen}
+          />
+        );
+      case "findUsers":
+        return (
+          <SearchUserScreen
+            users={users}
+            moveToProfileScreen={moveToProfileScreen}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
-  const filteredJobsByText = searchText
-    ? filteredJobsByTags.filter((job) => {
-        return job.title.includes(searchText);
-      })
-    : filteredJobsByTags;
-
-  const moveToFilter = () => navigation.navigate("Filter");
-
-  const moveToDetail = (id, platform) =>
+  const moveToDetailScreen = (id, platform) =>
     navigation.navigate("Detail", { jobId: id, platform: platform });
 
-  const handleSearchChange = (text) => {
-    setSearchText(text);
+  const moveToFilterScreen = () => navigation.navigate("Filter");
+
+  const moveToProfileScreen = (userId) =>
+    navigation.navigate("Profile", { userId: userId });
+
+  const getTabBarIcon = (props) => {
+    const { route } = props;
+    if (route.key === "findJobs") {
+      return (
+        <Icon
+          type="material-community"
+          name="briefcase-search-outline"
+          size={30}
+        />
+      );
+    } else {
+      return (
+        <Icon
+          type="material-community"
+          name="account-search-outline"
+          size={30}
+        />
+      );
+    }
   };
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.filterView}>
-        <View style={styles.searchView}>
-          <AppSearchBar
-            value={searchText}
-            searchTextChange={handleSearchChange}
+      <TabView
+        renderTabBar={(props) => (
+          <TabBar
+            {...props}
+            style={{ backgroundColor: "#ffffff" }}
+            indicatorStyle={{ backgroundColor: "black" }}
+            tabStyle={styles.tabBarView}
+            labelStyle={styles.tabBarLabel}
+            renderIcon={(props) => getTabBarIcon(props)}
           />
-        </View>
-        <Icon type="material-community" name="filter" onPress={moveToFilter} />
-      </View>
-      <JobList jobs={filteredJobsByText} itemClick={moveToDetail} />
+        )}
+        navigationState={{ index: index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={styles.tabBarContainer}
+      />
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
+    flex: 1,
+  },
+  tabBarView: {
+    flexDirection: "row",
+  },
+  tabBarLabel: {
+    color: "#000000",
   },
   searchView: {
     flex: 1,
