@@ -1,21 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { TabView, TabBar } from "react-native-tab-view";
 import { Icon } from "react-native-elements";
 
+import SessionContext from "../../store/context";
 import JobInfo from "../../components/jobDetail/JobInfo";
 import JobTimeline from "../../components/jobDetail/JobTimeLine";
-import useGetJobDetail from "../../hooks/useGetJobDetail";
-import jobs from "../../constants/jobs.json";
 
 const ROOMID = "W9OwGZS7GIdNc8DyDRd9";
 
-const JobFromPlatform = ({ jobId, moveToProfileScreen, moveToChatScreen }) => {
+const JobInPlatform = ({ jobId, moveToProfileScreen, moveToChatScreen }) => {
   const [index, setIndex] = useState(0);
   const [routes] = React.useState([
     { key: "detail", title: "詳細內容" },
     { key: "timeline", title: "進度條" },
   ]);
+
+  const [session] = useContext(SessionContext);
+
+  const { jobs } = session;
 
   const filteredJob = jobs.filter((job) => {
     return job.id == jobId;
@@ -29,7 +32,7 @@ const JobFromPlatform = ({ jobId, moveToProfileScreen, moveToChatScreen }) => {
         return (
           <JobInfo
             {...job}
-            moveToProfileScreen={moveToProfileScreen}
+            moveToProfileScreen={() => moveToProfileScreen(job.id)}
             moveToChatScreen={moveToChatScreen}
           />
         );
@@ -101,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default JobFromPlatform;
+export default JobInPlatform;

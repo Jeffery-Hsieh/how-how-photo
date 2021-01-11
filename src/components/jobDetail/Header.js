@@ -8,10 +8,15 @@ const JobDetailHeader = ({
   platform,
   workerNum,
   price,
+  avatarDisabled,
   avatarOnPress,
 }) => (
   <View style={styles.container}>
-    <TouchableOpacity style={styles.avatarView} onPress={avatarOnPress}>
+    <TouchableOpacity
+      style={styles.avatarView}
+      onPress={avatarOnPress}
+      disabled={avatarDisabled}
+    >
       <Avatar
         rounded
         containerStyle={styles.avatar}

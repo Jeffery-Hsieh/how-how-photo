@@ -3,13 +3,14 @@ import { StyleSheet } from "react-native";
 import { View, Text, ScrollView } from "react-native";
 import JobItem from "./JobItem";
 
-const JobList = ({ jobs, itemClick }) => {
+const JobList = ({ jobs, itemClick, favoriteBtnClick }) => {
   const jobItems = jobs.map((job) => {
     const { id, platform } = job;
     return (
       <JobItem
         key={job.id}
         moveToNextScreen={() => itemClick(id, platform)}
+        favoriteBtnClick={() => favoriteBtnClick(id)}
         {...job}
       />
     );

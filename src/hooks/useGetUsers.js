@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import userExamples from "../constants/users.json";
 
-const useGetUsers = () => {
+const useGetUsers = (userId) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    setUsers(userExamples);
+    if (userId) {
+      const userFiltered = userExamples.filter((user) => {
+        return user.id == userId;
+      });
+      setUsers(userFiltered);
+    } else {
+      setUsers(userExamples);
+    }
   }, []);
 
   return [users];

@@ -5,14 +5,7 @@ import IconWithText from "../ui/IconWithText";
 
 const STAR_IMAGE = require("../../assets/star.png");
 
-const UserItem = ({
-  id,
-  name,
-  occupation,
-  skills,
-  rating,
-  moveToNextScreen,
-}) => {
+const UserItem = ({ id, name, occupation, tags, rating, moveToNextScreen }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.cardView} onPress={moveToNextScreen}>
@@ -46,7 +39,7 @@ const UserItem = ({
             containerStyle={styles.contentIconText}
             iconSource="font-awesome-5"
             iconName="user-tag"
-            text={skills[0]}
+            text={tags[0]}
           />
         </View>
       </TouchableOpacity>

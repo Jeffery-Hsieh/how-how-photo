@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { Icon } from "react-native-elements";
 
+import useGetUsers from "../../hooks/useGetUsers";
 import UserList from "../../components/search/UserList";
 import AppSearchBar from "../../components/ui/AppSearchBar";
 
-const SearchUserScreen = ({ users, moveToProfileScreen }) => {
+const SearchUserScreen = ({ moveToProfileScreen }) => {
   const [searchText, setSearchText] = useState("");
+
+  const [users] = useGetUsers();
 
   const handleSearchChange = (text) => {
     setSearchText(text);

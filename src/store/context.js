@@ -1,12 +1,11 @@
 import React, { createContext, useState } from "react";
 import firebase from "../services/firebase";
-import { userHack } from "../store/constant";
+import jobExamples from "../constants/jobs.json";
+import users from "../constants/users.json";
 
 const initialState = {
-  user: {
-    ...userHack[0],
-  },
-  authenticated: false,
+  user: users[0],
+  jobs: jobExamples,
   firebase,
 };
 

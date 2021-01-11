@@ -1,18 +1,40 @@
-import React from "react";
-import useGetJobs from "../../hooks/useGetJobs";
+import React, { useContext } from "react";
 import { StyleSheet, ScrollView, Text } from "react-native";
+
 import JobList from "../../components/ui/JobList";
+import SessionContext from "../../store/context";
 
 const Favorite = ({ navigation }) => {
-  const [jobs, { setStatus }] = useGetJobs("favorite");
+  const [session, setSession] = useContext(SessionContext);
+
+  const { jobs } = session;
+
+  const jobsFavorite = jobs.filter((job) => {
+    return job.status == "favorite";
+  });
 
   const goToDetailScreen = (id, platform) => {
     navigation.navigate("Detail", { jobId: id, platform: platform });
   };
 
+  const changeJobStatus = (jobId) => {
+    const newJobs = [...jobs];
+    newJobs.forEach((job, index) => {
+      if (job.id == jobId) {
+        const newStatus = job.status == "favorite" ? "start" : "favorite";
+        newJobs[index].status = newStatus;
+      }
+    });
+    setSession({ jobs: newJobs });
+  };
+
   return (
     <ScrollView style={styles.jobListView}>
-      <JobList jobs={jobs} itemClick={goToDetailScreen} />
+      <JobList
+        jobs={jobsFavorite}
+        itemClick={goToDetailScreen}
+        favoriteBtnClick={changeJobStatus}
+      />
     </ScrollView>
   );
 };

@@ -24,7 +24,7 @@ const JobInfo = ({
         platform="HOW"
         workerNum={2}
         price={"15K"}
-        avatarOnPress={() => moveToProfileScreen(id)}
+        avatarOnPress={moveToProfileScreen}
       />
       <JobDetailSubHeader
         id={id}

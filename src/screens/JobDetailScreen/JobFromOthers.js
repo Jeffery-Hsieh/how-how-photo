@@ -14,14 +14,7 @@ const JobFromOthers = ({ jobId, moveToProfileScreen, moveToChatScreen }) => {
     return job.id === jobId;
   })[0];
 
-  const {
-    facebookId,
-    lineId,
-    status,
-    platform,
-    description,
-    sender,
-  } = filteredJob;
+  const { facebookId, lineId, platform, description, sender } = filteredJob;
 
   return (
     <View style={styles.container}>
@@ -31,7 +24,7 @@ const JobFromOthers = ({ jobId, moveToProfileScreen, moveToChatScreen }) => {
         platform={platform.toUpperCase()}
         workerNum={"-"}
         price={"-"}
-        avatarOnPress={() => moveToProfileScreen(jobId)}
+        avatarDisabled={true}
       />
       <JobDetailSubHeader
         id={jobId}

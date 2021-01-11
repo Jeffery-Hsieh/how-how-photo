@@ -8,11 +8,15 @@ import SessionContext from "../../store/context";
 import Gallery from "../../components/profile/Gallery";
 import Info from "../../components/profile/Info";
 import AddBtn from "../../components/ui/AddBtn";
+import users from "../../constants/users.json";
 
 const ProfileScreen = ({ navigation, route }) => {
   const [session, setSession] = useContext(SessionContext);
   const userId = route.params && route.params.userId;
-  console.log(userId);
+
+  const userFiltered = users.filter((user) => {
+    return user.id == userId;
+  });
 
   const [images, setImages] = useState([
     { id: 100, uri: "https://picsum.photos/id/100/300/200" },
@@ -37,7 +41,7 @@ const ProfileScreen = ({ navigation, route }) => {
   }, [navigation, user]);
 
   const changeUser = () => {
-    const newUser = user.id == userHack[0].id ? userHack[1] : userHack[0];
+    const newUser = user.id === users[0].id ? users[1] : users[0];
 
     setSession({
       ...session,
@@ -59,12 +63,7 @@ const ProfileScreen = ({ navigation, route }) => {
       addImages: addImages,
     });
 
-  const userDisplay = userId
-    ? {
-        ...user,
-        imageURI: `https://i.pravatar.cc/300?img=${userId}`,
-      }
-    : user;
+  const userDisplay = userFiltered.length ? userFiltered[0] : user;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

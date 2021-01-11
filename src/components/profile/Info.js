@@ -5,14 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const STAR_IMAGE = require("../../assets/star.png");
 
-const Info = ({
-  name,
-  userId,
-  occupation,
-  imageURI,
-  tags,
-  moveToNextScreen,
-}) => {
+const Info = ({ id, name, imageURI, occupation, tags, moveToNextScreen }) => {
   return (
     <>
       <Avatar

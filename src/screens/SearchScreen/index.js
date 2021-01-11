@@ -1,13 +1,10 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useContext, useLayoutEffect } from "react";
 import { ScrollView, StyleSheet, View, TextInput, Text } from "react-native";
 import { Icon } from "react-native-elements";
 import { CommonActions } from "@react-navigation/native";
 import { TabBar } from "react-native-tab-view";
 import { TabView } from "react-native-tab-view";
 
-import useGetJobs from "../../hooks/useGetJobs";
-import useGetUsers from "../../hooks/useGetUsers";
-import jobsHack from "../../constants/jobs.json";
 import SearchJobScreen from "./SearchJobScreen";
 import SearchUserScreen from "./SearchUserScreen";
 import _ from "lodash";
@@ -19,9 +16,7 @@ const SearchScreen = ({ navigation, route }) => {
     { key: "findUsers", title: "找人才" },
   ]);
 
-  const [jobs, { setJobs }] = useGetJobs("start");
-  const [users] = useGetUsers();
-  const [searchText, setSearchText] = useState("");
+  const [smartMode, setSmartMode] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -30,9 +25,7 @@ const SearchScreen = ({ navigation, route }) => {
           type="material-community"
           name="head-snowflake-outline"
           style={{ marginRight: 12 }}
-          onPress={() => {
-            setJobs([jobsHack[2]]);
-          }}
+          onPress={() => setSmartMode((prevState) => !prevState)}
         />
       ),
       headerLeft: () => (
@@ -58,7 +51,7 @@ const SearchScreen = ({ navigation, route }) => {
       case "findJobs":
         return (
           <SearchJobScreen
-            jobs={jobs}
+            smartMode={smartMode}
             moveToDetailScreen={moveToDetailScreen}
             moveToFilterScreen={moveToFilterScreen}
           />
@@ -66,7 +59,7 @@ const SearchScreen = ({ navigation, route }) => {
       case "findUsers":
         return (
           <SearchUserScreen
-            users={users}
+            smartMode={smartMode}
             moveToProfileScreen={moveToProfileScreen}
           />
         );

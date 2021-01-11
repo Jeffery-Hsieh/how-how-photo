@@ -24,6 +24,7 @@ const JobItem = ({
   tags,
   status,
   moveToNextScreen,
+  favoriteBtnClick,
 }) => {
   const showFavoriteIcon = status === "start" || status === "favorite";
   const showApplyJobIcon =
@@ -71,6 +72,7 @@ const JobItem = ({
             text="收藏"
             isSelected={status == "favorite"}
             selectedColor="#B9B8B7"
+            onTagPress={favoriteBtnClick}
           />
           {showApplyJobIcon && <AppBtn text="應徵" />}
         </View>

@@ -7,12 +7,7 @@ const UserList = ({ users, itemClick }) => {
   const items = users.map((user) => {
     const { id } = user;
     return (
-      <UserItem
-        key={id}
-        id={id}
-        moveToNextScreen={() => itemClick(id)}
-        {...user}
-      />
+      <UserItem key={id} moveToNextScreen={() => itemClick(id)} {...user} />
     );
   });
 
