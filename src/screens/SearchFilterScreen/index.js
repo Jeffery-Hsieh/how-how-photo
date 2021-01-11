@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Icon, Divider } from "react-native-elements";
 
 import TagSelector from "../../components/searchFilter/TagSelector";
@@ -69,7 +69,7 @@ const SearchFilterScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.selectorView}>
         <TagSelector
           title="案件來源"
@@ -96,13 +96,12 @@ const SearchFilterScreen = ({ navigation }) => {
           handleTagSelect={handleTagSelect}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#ffffff",
     paddingHorizontal: 12,
   },

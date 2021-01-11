@@ -25,7 +25,7 @@ const JobList = ({ jobs, itemClick, favoriteBtnClick }) => {
     );
   }
 
-  return <>{jobItems}</>;
+  return <ScrollView>{jobItems}</ScrollView>;
 };
 
 const styles = StyleSheet.create({

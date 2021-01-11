@@ -7,7 +7,9 @@ import SessionContext from "../../store/context";
 const Favorite = ({ navigation }) => {
   const [session, setSession] = useContext(SessionContext);
 
-  const { jobs } = session;
+  const { user, jobs } = session;
+
+  console.log(user);
 
   const jobsFavorite = jobs.filter((job) => {
     return job.status == "favorite";
@@ -25,7 +27,7 @@ const Favorite = ({ navigation }) => {
         newJobs[index].status = newStatus;
       }
     });
-    setSession({ jobs: newJobs });
+    setSession({ ...session, jobs: newJobs });
   };
 
   return (

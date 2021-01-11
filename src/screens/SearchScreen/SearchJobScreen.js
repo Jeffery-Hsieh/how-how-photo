@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
 import _ from "lodash";
 
@@ -43,7 +43,7 @@ const SearchJobScreen = ({
         newJobs[index].status = newStatus;
       }
     });
-    setSession({ jobs: newJobs });
+    setSession({ ...session, jobs: newJobs });
   };
 
   return (

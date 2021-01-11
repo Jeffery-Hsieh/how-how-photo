@@ -20,7 +20,7 @@ const UserList = ({ users, itemClick }) => {
     );
   }
 
-  return <>{items}</>;
+  return <ScrollView>{items}</ScrollView>;
 };
 
 const styles = StyleSheet.create({

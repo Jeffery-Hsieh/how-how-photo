@@ -65,6 +65,8 @@ const ProfileScreen = ({ navigation, route }) => {
 
   const userDisplay = userFiltered.length ? userFiltered[0] : user;
 
+  console.log(userDisplay);
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.bg}></View>

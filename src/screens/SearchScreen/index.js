@@ -1,5 +1,12 @@
 import React, { useState, useContext, useLayoutEffect } from "react";
-import { ScrollView, StyleSheet, View, TextInput, Text } from "react-native";
+import {
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+} from "react-native";
 import { Icon } from "react-native-elements";
 import { CommonActions } from "@react-navigation/native";
 import { TabBar } from "react-native-tab-view";
@@ -98,7 +105,7 @@ const SearchScreen = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <TabView
         renderTabBar={(props) => (
           <TabBar
@@ -115,13 +122,16 @@ const SearchScreen = ({ navigation, route }) => {
         onIndexChange={setIndex}
         initialLayout={styles.tabBarContainer}
       />
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  tabBarContainer: {
+    width: Dimensions.get("window").width,
   },
   tabBarView: {
     flexDirection: "row",
